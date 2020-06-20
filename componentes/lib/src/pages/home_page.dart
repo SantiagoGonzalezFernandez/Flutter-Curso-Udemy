@@ -1,9 +1,10 @@
 //Importaciones que no son mias
-import 'package:componentes/src/utils/icono_string_util.dart';
 import 'package:flutter/material.dart';
 
 //Importaciones que si son mias
 import 'package:componentes/src/providers/menu_provider.dart';
+import 'package:componentes/src/pages/alert_page.dart';
+import 'package:componentes/src/utils/icono_string_util.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -22,19 +23,14 @@ class HomePage extends StatelessWidget {
       future: menuProvider.cargarData(),
       initialData: [],
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
-
-        print('builder');
-        print(snapshot.data);
-
         return ListView(  
-          children: _listaItems(snapshot.data),
+          children: _listaItems(context, snapshot.data),
         );
       },
-    );
-    
+    );  
   }
 
-  List<Widget> _listaItems(List<dynamic> data) {
+  List<Widget> _listaItems(BuildContext context, List<dynamic> data) {
     
     final List<Widget> opciones = [];
 
@@ -43,7 +39,16 @@ class HomePage extends StatelessWidget {
         title: Text(opt['texto']),
         leading: getIcon(opt['icon']),
         trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
-        onTap: (){},
+        onTap: (){
+
+          // final route = MaterialPageRoute(
+          //   builder: (context) => AlertPage()
+          // );
+
+          // Navigator.push(context, route);
+
+          Navigator.pushNamed(context, opt['ruta']);
+        },
       );
 
       opciones..add(widgetTemp)
